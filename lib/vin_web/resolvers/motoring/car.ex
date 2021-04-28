@@ -1,8 +1,5 @@
 defmodule VinWeb.Resolvers.Motoring.Car do
   alias Vin.Motoring
-  alias Vin.Motoring.Car
-
-  import Absinthe.Resolution.Helpers, only: [on_load: 2]
 
   def create_car(_, %{input: params}, _) do
     case Motoring.create_car(params) do
