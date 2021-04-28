@@ -5,37 +5,33 @@ defmodule Vin.Vin do
 
   @length 17
 
-  @transliterations
-  0..9
-  |> Enum.reduce(%{}, &Map.put(&2, to_string(&1), &1))
-  |> Map.merge(%{
-    "A" => 1,
-    "B" => 2,
-    "C" => 3,
-    "D" => 3,
-    "E" => 3,
-    "F" => 3,
-    "G" => 3,
-    "H" => 3,
-    "I" => nil,
-    "J" => 3,
-    "K" => 3,
-    "L" => 3,
-    "M" => 3,
-    "N" => 3,
-    "O" => nil,
-    "P" => 3,
-    "Q" => nil,
-    "R" => 3,
-    "S" => 3,
-    "T" => 3,
-    "U" => 3,
-    "V" => 3,
-    "W" => 3,
-    "X" => 3,
-    "Y" => 3,
-    "Z" => 3
-  })
+  @transliterations 0..9
+                    |> Enum.reduce(%{}, &Map.put(&2, to_string(&1), &1))
+                    |> Map.merge(%{
+                      "A" => 1,
+                      "B" => 2,
+                      "C" => 3,
+                      "D" => 4,
+                      "E" => 5,
+                      "F" => 6,
+                      "G" => 7,
+                      "H" => 8,
+                      "J" => 1,
+                      "K" => 2,
+                      "L" => 3,
+                      "M" => 4,
+                      "N" => 5,
+                      "P" => 7,
+                      "R" => 9,
+                      "S" => 2,
+                      "T" => 3,
+                      "U" => 4,
+                      "V" => 5,
+                      "W" => 6,
+                      "X" => 7,
+                      "Y" => 8,
+                      "Z" => 9
+                    })
 
   @position_weights %{
     1 => 8,
@@ -57,21 +53,42 @@ defmodule Vin.Vin do
     17 => 2
   }
 
-  def is_valid_length?(vin) when is_binary(vin) do
-    String.length(vin) == @length
-  end
-
-  def is_valid_length?(vin), do: false
-
+  @spec check_digit(term()) :: {:ok, binary()} | {:error, binray()}
   def check_digit(vin) do
-    if is_valid_length?(vin) do
+    if is_valid?(vin) do
       calculate_check_digit(vin)
     else
-      nil
+      {:error, "Invalid VIN"}
     end
   end
 
+  def is_valid?(vin) when is_binary(vin) do
+    is_valid_length?(vin) and is_all_allowed_symbols?(vin)
+  end
+
+  def is_valid?(_vin), do: false
+
+  def is_all_allowed_symbols?(vin) when is_binary(vin) do
+    Enum.all?(String.graphemes(vin), &Map.has_key?(@transliterations, &1))
+  end
+
+  defp is_valid_length?(vin) when is_binary(vin) do
+    String.length(vin) == @length
+  end
+
   defp calculate_check_digit(vin) do
-    "HYu"
+    check_digit =
+      case vin
+           |> String.graphemes()
+           |> Enum.with_index(1)
+           |> Enum.reduce(0, fn {vin_symbol, position}, sum ->
+             sum + @transliterations[vin_symbol] * @position_weights[position]
+           end)
+           |> rem(11) do
+        10 -> "X"
+        single_digit -> to_string(single_digit)
+      end
+
+    {:ok, check_digit}
   end
 end
