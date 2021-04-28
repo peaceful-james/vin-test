@@ -8,7 +8,7 @@ defmodule Vin.MotoringTest do
 
     @valid_attrs %{charge_status: :disconnected, vin: "11111111111111111"}
     @update_attrs %{charge_status: :charging, vin: "1M8GDM9AXKP042788"}
-    @invalid_attrs %{charge_status: nil, vin: nil}
+    @invalid_attrs %{vin: "invalid"}
 
     def car_fixture(attrs \\ %{}) do
       {:ok, car} =
