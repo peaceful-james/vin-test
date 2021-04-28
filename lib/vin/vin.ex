@@ -53,7 +53,7 @@ defmodule Vin.Vin do
     17 => 2
   }
 
-  @spec check_digit(term()) :: {:ok, binary()} | {:error, binray()}
+  @spec check_digit(term()) :: {:ok, binary()} | {:error, binary()}
   def check_digit(vin) do
     if is_valid?(vin) do
       calculate_check_digit(vin)
