@@ -37,7 +37,6 @@ defmodule VinWeb.Schema.CarTest do
 
     assert %{"data" => %{"car" => %{"car" => car_data}}} =
              json_response(response, 200)
-             |> IO.inspect()
 
     assert %{
              "id" => _car_id,
@@ -74,7 +73,6 @@ defmodule VinWeb.Schema.CarTest do
 
     assert %{"data" => %{"car" => %{"car" => car_data}}} =
              json_response(response, 200)
-             |> IO.inspect()
 
     assert %{"id" => _car_id} = car_data
   end
