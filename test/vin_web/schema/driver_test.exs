@@ -25,8 +25,7 @@ defmodule VinWeb.Schema.DriverTest do
         }
       }
 
-    assert %{"data" => %{"driver" => %{"driver" => driver_data}}} =
-             json_response(response, 200)
+    assert %{"data" => %{"driver" => %{"driver" => driver_data}}} = json_response(response, 200)
 
     assert %{
              "id" => _driver_id,

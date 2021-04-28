@@ -25,10 +25,10 @@ defmodule VinWeb.Router do
 
     if Mix.env() in [:dev, :test] do
       forward "/",
-        Plug.GraphiQL,
-        schema: VinWeb.Schema,
-        interface: :advanced,
-        socket: VinWeb.UserSocket
+              Plug.GraphiQL,
+              schema: VinWeb.Schema,
+              interface: :advanced,
+              socket: VinWeb.UserSocket
     end
   end
 

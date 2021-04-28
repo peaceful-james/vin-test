@@ -14,10 +14,10 @@ defmodule VinWeb.Schema.Middleware.BinaryListErrors do
             errors
             |> Enum.with_index()
             |> Enum.map(fn {message, index} ->
-            %{key: "error #{index}", message: message}
-          end)
+              %{key: "error #{index}", message: message}
+            end)
 
-            %{res | value: %{errors: error_messages}, errors: []}
+          %{res | value: %{errors: error_messages}, errors: []}
         else
           res
         end

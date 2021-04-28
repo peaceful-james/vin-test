@@ -25,8 +25,8 @@ defmodule VinWeb.Schema.Motoring.CarTypes do
   end
 
   object :car_result do
-    field :errors, list_of(:input_error)
-    field :car, :car
+    field(:errors, list_of(:input_error))
+    field(:car, :car)
   end
 
   object :car_mutations do

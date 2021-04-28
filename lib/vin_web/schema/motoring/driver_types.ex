@@ -13,12 +13,12 @@ defmodule VinWeb.Schema.Motoring.DriverTypes do
   end
 
   input_object :create_driver_input do
-    field :name, non_null(:string)
+    field(:name, non_null(:string))
   end
 
   object :driver_result do
-    field :errors, list_of(:input_error)
-    field :driver, :driver
+    field(:errors, list_of(:input_error))
+    field(:driver, :driver)
   end
 
   object :driver_queries do

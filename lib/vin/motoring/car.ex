@@ -4,9 +4,9 @@ defmodule Vin.Motoring.Car do
   alias Vin.Motoring.Driver
 
   schema "cars" do
-    field :charge_status, Ecto.Enum, values: [:charging, :disconnected]
-    field :vin, :string
-    belongs_to :driver, Driver
+    field(:charge_status, Ecto.Enum, values: [:charging, :disconnected])
+    field(:vin, :string)
+    belongs_to(:driver, Driver)
 
     timestamps()
   end
