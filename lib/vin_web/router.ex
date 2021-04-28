@@ -16,14 +16,20 @@ defmodule VinWeb.Router do
   scope "/", VinWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/page", PageController, :index
   end
 
-  scope "/api" do
+  scope "/", Absinthe do
     pipe_through :api
+    forward "/api", Plug, schema: VinWeb.Schema
 
-    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: VinWeb.Schema
-    forward "/", Absinthe.Plug, schema: VinWeb.Schema
+    if Mix.env() in [:dev, :test] do
+      forward "/",
+        Plug.GraphiQL,
+        schema: VinWeb.Schema,
+        interface: :advanced,
+        socket: VinWeb.UserSocket
+    end
   end
 
   # Enables LiveDashboard only for development
