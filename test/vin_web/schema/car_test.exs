@@ -50,5 +50,32 @@ defmodule VinWeb.Schema.CarTest do
   end
 
   test "deleting a car", %{conn: conn} do
+    car = car_fixture()
+
+    response =
+      post conn, "/api", %{
+        query: """
+        mutation deleteCarMutation($id: ID!){
+          car: deleteCar(id: $id) {
+            errors {
+              key
+              message
+            }
+            car {
+              id
+            }
+          }
+        }
+        """,
+        variables: %{
+          "id" => car.id
+        }
+      }
+
+    assert %{"data" => %{"car" => %{"car" => car_data}}} =
+             json_response(response, 200)
+             |> IO.inspect()
+
+    assert %{"id" => _car_id} = car_data
   end
 end

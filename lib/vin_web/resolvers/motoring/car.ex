@@ -11,7 +11,7 @@ defmodule VinWeb.Resolvers.Motoring.Car do
     end
   end
 
-  def delete_car(_, %{input: %{id: id}}, _) do
+  def delete_car(_, %{id: id}, _) do
     case Motoring.get_car(id) do
       nil ->
         {:error, "No such car"}
