@@ -62,3 +62,4 @@ https://en.wikipedia.org/wiki/Vehicle_identification_number#Check-digit_calculat
 <!-- TODO @peaceful-james ask about -->
 1. why delete_car mutation had driver_id input?
 2. can I use Postgres?
+3. should cars - drivers actually be many-to-many with a join table?
