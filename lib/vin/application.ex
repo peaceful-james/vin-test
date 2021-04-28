@@ -7,6 +7,8 @@ defmodule Vin.Application do
 
   def start(_type, _args) do
     children = [
+      # Start the Ecto repository
+      Vin.Repo,
       # Start the Telemetry supervisor
       VinWeb.Telemetry,
       # Start the PubSub system

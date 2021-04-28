@@ -36,6 +36,7 @@ defmodule Vin.Motoring do
 
   """
   def get_car!(id), do: Repo.get!(Car, id)
+  def get_car(id), do: Repo.get(Car, id)
 
   @doc """
   Creates a car.

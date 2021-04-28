@@ -58,3 +58,7 @@ Additionally, each car's VIN should be checked for validity according to the
 check digit calculation documented below:
 
 https://en.wikipedia.org/wiki/Vehicle_identification_number#Check-digit_calculation
+
+<!-- TODO @peaceful-james ask about -->
+1. why delete_car mutation had driver_id input?
+2. can I use Postgres?

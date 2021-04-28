@@ -1,10 +1,12 @@
 defmodule Vin.Motoring.Car do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Vin.Motoring.Driver
 
   schema "cars" do
     field :charge_status, Ecto.Enum, values: [:charging, :disconnected]
     field :vin, :string
+    belongs_to :driver, Driver
 
     timestamps()
   end
@@ -12,8 +14,8 @@ defmodule Vin.Motoring.Car do
   @doc false
   def changeset(car, attrs) do
     car
-    |> cast(attrs, [:vin, :charge_status])
-    |> validate_required([:vin, :charge_status])
+    |> cast(attrs, [:vin, :charge_status, :driver_id])
+    |> validate_required([:vin, :charge_status, :driver_id])
     |> validate_vin()
   end
 

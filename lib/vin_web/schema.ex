@@ -1,45 +1,50 @@
 defmodule VinWeb.Schema do
   use Absinthe.Schema
-  import_types(VinWeb.Schema.DriverTypes)
+  alias VinWeb.Schema.Middleware
 
-  alias VinWeb.Resolvers
+  import_types(__MODULE__.Motoring.CarTypes)
+  import_types(__MODULE__.Motoring.DriverTypes)
+
+  @desc "An error encountered trying to persist input"
+  object :input_error do
+    field(:key, non_null(:string))
+    field(:message, non_null(:string))
+  end
+
+  def middleware(middleware, field, object) do
+    middleware
+    |> apply(:errors, field, object)
+  end
+
+  defp apply(middleware, :errors, _field, %{identifier: :mutation}) do
+    middleware ++ [Middleware.ChangesetErrors, Middleware.BinaryListErrors]
+  end
+
+  defp apply(middleware, _, _, _) do
+    middleware
+  end
+
+  def data, do: Dataloader.Ecto.new(Vin.Repo, query: &data_query/2)
+  def data_query(queryable, _params), do: queryable
+
+  def context(ctx) do
+    loader =
+      Dataloader.new()
+      |> Dataloader.add_source(Vin.Motoring, data())
+
+    Map.put(ctx, :loader, loader)
+  end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
+  end
 
   query do
-    @desc "list all drivers"
-    field :drivers, list_of(:driver) do
-      resolve(&Resolvers.Drivers.list_drivers/3)
-    end
-
-    @desc "get a driver by id"
-    field :driver, :driver do
-      arg(:id, non_null(:id))
-
-      resolve(&Resolvers.Drivers.get_driver/3)
-    end
+    import_fields(:driver_queries)
   end
 
   mutation do
-    @desc "create a driver"
-    field :create_driver, type: :driver do
-      arg(:name, non_null(:string))
-
-      resolve(&Resolvers.Drivers.create_driver/3)
-    end
-
-    @desc "create a car"
-    field :create_car, type: :car do
-      arg(:driver_id, :id)
-      arg(:vin, :string)
-
-      resolve(&Resolvers.Drivers.create_car/3)
-    end
-
-    @desc "delete a car"
-    field :delete_car, type: :driver do
-      arg(:driver_id, non_null(:id))
-      arg(:id, non_null(:id))
-
-      resolve(&Resolvers.Drivers.delete_car/3)
-    end
+    import_fields(:car_mutations)
+    import_fields(:driver_mutations)
   end
 end

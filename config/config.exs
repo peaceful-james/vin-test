@@ -7,6 +7,9 @@
 # General application configuration
 use Mix.Config
 
+config :vin,
+  ecto_repos: [Vin.Repo]
+
 # Configures the endpoint
 config :vin, VinWeb.Endpoint,
   url: [host: "localhost"],
