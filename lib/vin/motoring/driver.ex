@@ -5,7 +5,7 @@ defmodule Vin.Motoring.Driver do
 
   schema "drivers" do
     field(:name, :string)
-    has_many(:car, Car)
+    has_many(:cars, Car)
 
     timestamps()
   end
