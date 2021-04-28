@@ -28,7 +28,7 @@ defmodule VinWeb.Schema.CarTest do
         """,
         variables: %{
           "createCarInput" => %{
-            "vin" => "1111111111",
+            "vin" => "1M8GDM9AXKP042788",
             "chargeStatus" => "DISCONNECTED",
             "driverId" => driver.id
           }
@@ -40,8 +40,8 @@ defmodule VinWeb.Schema.CarTest do
 
     assert %{
              "id" => _car_id,
-             "vin" => "1111111111",
-             "chargeStatus" => "disconnected",
+             "vin" => "1M8GDM9AXKP042788",
+             "chargeStatus" => "DISCONNECTED",
              "driver" => %{
                "name" => ^driver_name
              }

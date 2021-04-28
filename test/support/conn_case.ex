@@ -17,6 +17,8 @@ defmodule VinWeb.ConnCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL.Sandbox
+
   using do
     quote do
       # Import conveniences for testing with connections
@@ -31,7 +33,13 @@ defmodule VinWeb.ConnCase do
     end
   end
 
-  setup _tags do
+  setup tags do
+    :ok = Sandbox.checkout(Vin.Repo)
+
+    unless tags[:async] do
+      Sandbox.mode(Vin.Repo, {:shared, self()})
+    end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

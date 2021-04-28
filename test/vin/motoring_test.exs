@@ -6,8 +6,8 @@ defmodule Vin.MotoringTest do
   describe "cars" do
     alias Vin.Motoring.Car
 
-    @valid_attrs %{charge_status: "some charge_status", vin: "some vin"}
-    @update_attrs %{charge_status: "some updated charge_status", vin: "some updated vin"}
+    @valid_attrs %{charge_status: :disconnected, vin: "11111111111111111"}
+    @update_attrs %{charge_status: :charging, vin: "1M8GDM9AXKP042788"}
     @invalid_attrs %{charge_status: nil, vin: nil}
 
     def car_fixture(attrs \\ %{}) do
@@ -31,8 +31,8 @@ defmodule Vin.MotoringTest do
 
     test "create_car/1 with valid data creates a car" do
       assert {:ok, %Car{} = car} = Motoring.create_car(@valid_attrs)
-      assert car.charge_status == "some charge_status"
-      assert car.vin == "some vin"
+      assert car.charge_status == :disconnected
+      assert car.vin == "11111111111111111"
     end
 
     test "create_car/1 with invalid data returns error changeset" do
@@ -42,8 +42,8 @@ defmodule Vin.MotoringTest do
     test "update_car/2 with valid data updates the car" do
       car = car_fixture()
       assert {:ok, %Car{} = car} = Motoring.update_car(car, @update_attrs)
-      assert car.charge_status == "some updated charge_status"
-      assert car.vin == "some updated vin"
+      assert car.charge_status == :charging
+      assert car.vin == "1M8GDM9AXKP042788"
     end
 
     test "update_car/2 with invalid data returns error changeset" do
